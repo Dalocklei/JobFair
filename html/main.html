@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width"/>
+    <title>Job Fair!</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/common.css" />
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+	
+	<!-- 可选的Bootstrap主题文件（一般不用引入） -->
+	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+	
+	<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+	<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+	
+	<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+	<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<h1>Job Fair!</h1>
+		<h2>你看到的“只限男生”！</h2>
+	</div>
+
+    <div class="container">
+	
+	  <div class="form-group">
+	    <label for="companyName">公司名称：</label>
+	    <input type="company" class="form-control" id="companyName" placeholder="请输入公司名称">
+	  </div>
+	  <div class="form-group">
+	    <label for="jobhire">招聘公告：</label>
+	   <!-- <input type="jobhire" class="form-control" id="jobhire" placeholder="请输入“只限男生”的招聘公告的内容，最好附带网址"> -->
+	    <textarea class="form-control" rows="5" id="jobhire" placeholder="请输入带有“只限男生”的招聘公告的内容，最好附带网址"></textarea>
+	  </div>
+
+	  <button type="submit" class="btn btn-primary btn-lg btn-block" onclick="submit()">提交</button>
+  
+
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript">
+	var model;
+    apiready = function(){
+		model = api.require('model');
+		model.config({                           //配置model信息，必须的 
+		    appKey: '3A9945F7-2F72-55B3-91AE-8EF00CB0F378',
+		});
+    };
+    
+    function submit(){
+    	console.log("enter the submit()!");
+    	var company = $api.byId('companyName').value;
+    	var jobhire = $api.byId('jobhire').value;
+    	console.log(company+jobhire);
+    	model.insert({
+		    class: 'jobhire',
+		    value:{
+		        companyName: company,
+			    jobhire: jobhire			     	
+		    }
+		}, function(ret, err) {
+		    if (ret) {
+		    	routeid = ret.id;
+				var log = "成功插入数据库记录 id="+routeid;
+				console.log(log);				
+		    } else {
+				console.log("无法插入数据库记录");
+		    }			    			
+		});
+    }
+</script>
+</html>
